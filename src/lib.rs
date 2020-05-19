@@ -62,3 +62,49 @@ where
         (self.spi, self.chip_select)
     }
 }
+
+pub struct MAX5216<SPI, CS> {
+    spi: SPI,
+    chip_select: CS,
+}
+
+impl<SPI, CS, E> MAX5216<SPI, CS>
+where
+    SPI: Write<u8, Error = E>,
+    CS: OutputPin,
+{
+    /// Construct a new MAX566x driver
+    pub fn new(spi: SPI, chip_select: CS) -> Self {
+        Self { spi, chip_select }
+    }
+
+    fn send_spi(&mut self, data: &[u8;3]) -> Result<(), E> {
+        self.chip_select.set_high().ok();
+        let result = self.spi.write(data);
+        self.chip_select.set_low().ok();
+        result
+    }
+
+    /// Set power down mode
+    pub fn power_down(&mut self, mode: PowerDownMode) -> Result<(), E> {
+        self.send_spi(&[
+            ControlBits::PowerDown as u8 | mode as u8,
+            0x0u8,
+            0x0u8,
+        ])
+    }
+
+    /// Write data to the dac
+    pub fn write_through(&mut self, data: u16) -> Result<(), E> {
+        self.send_spi(&[
+            ControlBits::WriteThrough as u8 | ((data >> 10) as u8),
+            (data >> 2) as u8,
+            (data << 6) as u8,
+        ])
+    }
+
+    /// Destroy the driver and return the wrapped SPI driver and chip select pin to be re-used
+    pub fn destroy(self) -> (SPI, CS) {
+        (self.spi, self.chip_select)
+    }
+}
