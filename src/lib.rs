@@ -30,7 +30,8 @@ where
     CS: OutputPin,
 {
     /// Construct a new MAX566x driver
-    pub fn new(spi: SPI, chip_select: CS) -> Self {
+    pub fn new(spi: SPI, mut chip_select: CS) -> Self {
+        chip_select.set_high().ok();
         Self { spi, chip_select }
     }
 
@@ -71,7 +72,8 @@ where
     CS: OutputPin,
 {
     /// Construct a new MAX566x driver
-    pub fn new(spi: SPI, chip_select: CS) -> Self {
+    pub fn new(spi: SPI, mut chip_select: CS) -> Self {
+        chip_select.set_high().ok();
         Self { spi, chip_select }
     }
 
