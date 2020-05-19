@@ -34,7 +34,7 @@ where
         Self { spi, chip_select }
     }
 
-    fn send_spi(&mut self, data: &[u8;2]) -> Result<(), E> {
+    fn send_spi(&mut self, data: &[u8; 2]) -> Result<(), E> {
         self.chip_select.set_high().ok();
         let result = self.spi.write(data);
         self.chip_select.set_low().ok();
@@ -43,10 +43,7 @@ where
 
     /// Set power down mode
     pub fn power_down(&mut self, mode: PowerDownMode) -> Result<(), E> {
-        self.send_spi(&[
-            ControlBits::PowerDown as u8 | mode as u8,
-            0x0u8
-        ])
+        self.send_spi(&[ControlBits::PowerDown as u8 | mode as u8, 0x0u8])
     }
 
     /// Write data to the dac
@@ -78,7 +75,7 @@ where
         Self { spi, chip_select }
     }
 
-    fn send_spi(&mut self, data: &[u8;3]) -> Result<(), E> {
+    fn send_spi(&mut self, data: &[u8; 3]) -> Result<(), E> {
         self.chip_select.set_high().ok();
         let result = self.spi.write(data);
         self.chip_select.set_low().ok();
@@ -87,11 +84,7 @@ where
 
     /// Set power down mode
     pub fn power_down(&mut self, mode: PowerDownMode) -> Result<(), E> {
-        self.send_spi(&[
-            ControlBits::PowerDown as u8 | mode as u8,
-            0x0u8,
-            0x0u8,
-        ])
+        self.send_spi(&[ControlBits::PowerDown as u8 | mode as u8, 0x0u8, 0x0u8])
     }
 
     /// Write data to the dac
