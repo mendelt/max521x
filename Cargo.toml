@@ -16,3 +16,6 @@ travis-ci = { repository = "mendelt/max521x" }
 
 [dependencies]
 embedded-hal = "0.2.3"
+
+[dev-dependencies]
+embedded-hal-mock = "0.7.1"

@@ -103,3 +103,37 @@ where
         (self.spi, self.chip_select)
     }
 }
+
+
+
+
+#[cfg(test)]
+mod test_max5216 {
+    use super::*;
+    use embedded_hal_mock::{spi, pin};
+
+    /// Helper method to set up mock spi and corresponding chip select pin
+    fn setup_mock_spi() -> (spi::Mock, pin::Mock) {
+        let spi = spi::Mock::new(&[]);
+
+        // Default cs expectations, new sets high, sending command toggles low, then high
+        let chip_select = pin::Mock::new(&[
+            pin::Transaction::set(pin::State::High),
+            pin::Transaction::set(pin::State::Low),
+            pin::Transaction::set(pin::State::High),
+        ]);
+
+        (spi, chip_select)
+    }
+
+    #[test]
+    pub fn should_init_chip_select_high() {
+        let (spi, mut chip_select) = setup_mock_spi();
+
+        chip_select.expect(&[
+            pin::Transaction::set(pin::State::High),
+        ]);
+
+        let _dac = MAX5216::new(spi, chip_select);
+    }
+}
