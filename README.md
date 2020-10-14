@@ -1,4 +1,5 @@
-# MAX5214 and MAX5216 &emsp; [![Build Status](https://travis-ci.com/mendelt/max521x.svg?branch=master)](https://travis-ci.com/mendelt/max521x)
+# MAX5214 and MAX5216 &emsp;
+[![Build Status](https://github.com/mendelt/max521x/workflows/Build/badge.svg)](https://github.com/mendelt/max521x/actions?query=workflow%3ABuild+event%3Apush+branch%3Amaster)
 
 *Maxim MAX5214 and MAX5216 DAC Drivers for Rust Embedded HAL*
 This is a driver crate for embedded Rust. It's built on top of the Rust
