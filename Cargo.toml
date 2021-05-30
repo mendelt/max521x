@@ -11,9 +11,6 @@ categories = ["no-std", "embedded"]
 keywords = ["dac", "spi"]
 readme = "README.md"
 
-[badges]
-travis-ci = { repository = "mendelt/max521x" }
-
 [dependencies]
 embedded-hal = "0.2.3"
 
